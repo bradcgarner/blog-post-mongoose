@@ -11,24 +11,24 @@ const {PORT, DATABASE_URL} = require('./config');
 
 const app = express();
 
-const BlogPosts = ('./router-blog-posts');
+const router = require('./router-blog-posts');
 
 app.use(morgan('common'));
 
 app.use(express.static('public'));
 
 // default generic general visitor, not API
-app.get('/', (req, res) => {
-  // show all blog posts
-  BlogPosts
-    .find()
-    .limit(10)
-    .then( blogposts => {
-      res.json(blogposts); // we can edit this with apiRepr later
-    });
-});
+// app.get('/', (req, res) => {
+//   // show all blog posts
+//   BlogPost
+//     .find()
+//     .limit(10)
+//     .then( blogposts => {
+//       res.json(blogposts); // we can edit this with apiRepr later
+//     });
+// });
 
-app.use('/blog', BlogPosts);
+app.use('/blog', router);
 
 app.use('*', function(req, res) {
   res.status(404).json({message: 'Not Found'});
